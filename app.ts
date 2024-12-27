@@ -1,14 +1,14 @@
 import { config as dotEnvConfig } from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
-import authRouter from "./routes/auth-router";
+import authRouter from "./src/routes/auth-router";
 import morgan from "morgan";
-import connectDb from "./db/connect";
-import errorHandler from "./middlewares/error-handler";
-import authHandler from "./middlewares/auth-handler";
+import connectDb from "./src/db/connect";
+import errorHandler from "./src/middlewares/error-handler";
+import authHandler from "./src/middlewares/auth-handler";
 import cookieParser from "cookie-parser";
-import profileRouter from "./routes/profile-router";
-import homeRouter from "./routes/home-router";
+import profileRouter from "./src/routes/profile-router";
+import homeRouter from "./src/routes/home-router";
 
 dotEnvConfig();
 const app = express();
