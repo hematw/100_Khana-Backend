@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getProperty, createProperty } from "../controllers/home";
+import { getProperty, createProperty } from "../controllers/properties";
 import multer from "multer";
 
 const homeRouter = Router();

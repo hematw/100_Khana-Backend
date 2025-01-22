@@ -8,7 +8,7 @@ import errorHandler from "./src/middlewares/error-handler";
 import authHandler from "./src/middlewares/auth-handler";
 import cookieParser from "cookie-parser";
 import profileRouter from "./src/routes/profile-router";
-import homeRouter from "./src/routes/home-router";
+import propertiesRouter from "./src/routes/properties-router";
 
 dotEnvConfig();
 const app = express();
@@ -40,7 +40,7 @@ app.use(authHandler);
 // Profile routes
 app.use("/api/v1/profile", profileRouter);
 
-app.use("/api/v1/homes", homeRouter)
+app.use("/api/v1/homes", propertiesRouter)
 app.use(errorHandler);
 
 const start = async () => {
@@ -48,8 +48,8 @@ const start = async () => {
     if (process.env.MONGO_STRING) {
       await connectDb(process.env.MONGO_STRING);
       console.log("Database connected ✅")
+      app.listen(port, () => console.log(`server is running on port ${port} 🆗`));
     }
-    app.listen(port, () => console.log(`server is running on port ${port} 🆗`));
   } catch (error) {}
 };
 start();

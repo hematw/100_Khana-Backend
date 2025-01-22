@@ -11,8 +11,12 @@ export const getProfile = asyncHandler(
     if (userId === "me" && typeof req.user === "object") {
       userId = req.user?.id;
     }
-    const profile = await Profile.findOne({ userId }).populate("userId");
-    res.json({ success: true, profile });
+    console.log(userId);
+    const profile = await Profile.findOne({userId}).populate("userId");
+    if(!profile){
+      return res.status(404).json({message: "Profile not found"});
+    }
+    res.json(profile);
   }
 );
 
@@ -26,11 +30,13 @@ export const updateProfile = asyncHandler(
           await User.findByIdAndUpdate(userId, {
             email: req.body.email,
           });
+
           const profileImagePath =
             `${req.protocol}://${req.hostname}:${process.env.PORT}` +
             req.file?.destination
               .replace("./public", "")
               .concat("/" + req.file?.filename);
+
           const profile = await Profile.findOneAndUpdate(
             { userId },
             { userId, profileImage: profileImagePath, ...req.body },
@@ -40,18 +46,11 @@ export const updateProfile = asyncHandler(
               upsert: true,
             }
           ).populate("userId");
-          if (!profile) {
-            res
-              .status(404)
-              .json({ success: false, message: "Profile not found" });
-          } else {
-            res.json({ success: true, profile: profile });
-          }
+
+          res.status(200).json(profile);
         } catch (error) {
           console.error(error);
-          res
-            .status(500)
-            .json({ success: false, message: "Failed to update profile" });
+          res.status(500).json({ message: "Failed to update profile" });
         }
       }
     }

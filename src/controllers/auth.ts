@@ -1,4 +1,5 @@
 import asyncHandler from "../middlewares/async-handler";
+import Profile from "../models/Profile";
 import User from "../models/User";
 import { CookieOptions, json, Request, Response } from "express";
 
@@ -11,13 +12,14 @@ const cookieOptions: CookieOptions = {
 // Register route controller
 export const registerUser = asyncHandler(
   async (req: Request, res: Response) => {
-    const createdUser = await User.create(req.body);
+    const { username, email, password } = req.body;
+    const createdUser = await User.create({ username, email, password });
+    const profile = await Profile.create({ userId: createdUser._id });
     const token = await createdUser.generateToken();
     return res
       .status(200)
       .cookie("token", token, cookieOptions)
       .json({
-        success: true,
         token,
         createdUser: { ...createdUser.toJSON(), password: undefined },
       });
@@ -33,7 +35,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     return res
       .status(200)
       .cookie("token", token, cookieOptions)
-      .json({ success: true, token });
+      .json({  token });
   }
   return res.status(401).json({ message: "Email or password was wrong!" });
 });
@@ -43,5 +45,5 @@ export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
   return res
     .status(200)
     .clearCookie("token", cookieOptions)
-    .json({ success: true, message: "Logged out successfully" });
+    .json({ message: "Logged out successfully" });
 });

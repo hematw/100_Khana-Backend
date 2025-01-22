@@ -16,6 +16,7 @@ const profileRouter = Router();
 
 // Route for updating profile
 profileRouter.patch("/update", upload.single("profileImage"), updateProfile);
+
 // Route for get profile by id param
 profileRouter.get("/:id", getProfile);
 
