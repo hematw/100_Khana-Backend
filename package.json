@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node app.ts",
+    "start": "tsx app.ts",
     "seed": "ts-node seeders/seed.ts",
-    "dev": "nodemon app.ts"
+    "dev": "tsx app.ts"
   },
   "author": "Hemat waziri",
   "license": "ISC",
