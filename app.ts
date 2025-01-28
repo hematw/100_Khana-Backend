@@ -7,7 +7,7 @@ import connectDb from "./src/db/connect";
 import errorHandler from "./src/middlewares/error-handler";
 import authHandler from "./src/middlewares/auth-handler";
 import cookieParser from "cookie-parser";
-import profileRouter from "./src/routes/profile-router";
+import userRouter from "./src/routes/user-router";
 import propertiesRouter from "./src/routes/properties-router";
 
 dotEnvConfig();
@@ -37,10 +37,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use("/api/v1/auth", authRouter);
 app.use(authHandler);
 
-// Profile routes
-app.use("/api/v1/profile", profileRouter);
+// Users routes
+app.use("/api/v1/users", userRouter);
 
-app.use("/api/v1/homes", propertiesRouter)
+app.use("/api/v1/properties", propertiesRouter)
 app.use(errorHandler);
 
 const start = async () => {

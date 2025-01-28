@@ -17,9 +17,27 @@ const User = new mongoose.Schema(
       required: [true, "Username is required!"],
       unique: true,
     },
+    firstName: {
+      type: String,
+      required: [true, "Please provide first name!"],
+    },
+    lastName: {
+      type: String,
+      required: [true, "Please provide last name!"],
+    },
+    phone: {
+      type: String,
+      // required: [true, "Please provide phone number!"],
+    },
+    govId: {
+      type: String,
+      // required: [true, "Please provide government ID!"],
+    },
     profile: {
-      type: mongoose.Types.ObjectId,
-      ref: "Profile",
+      type: String, 
+    },
+    background: {
+      type: String, 
     },
     email: {
       type: String,
@@ -29,7 +47,9 @@ const User = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required!"],
-      unique: true,
+    },
+    bio: {
+      type: String,
     },
   },
   {

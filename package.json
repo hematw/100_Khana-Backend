@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsx app.ts",
     "seed": "ts-node seeders/seed.ts",
-    "dev": "tsx app.ts"
+    "dev": "tsx watch app.ts"
   },
   "author": "Hemat waziri",
   "license": "ISC",

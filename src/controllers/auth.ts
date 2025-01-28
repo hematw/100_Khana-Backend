@@ -1,5 +1,4 @@
 import asyncHandler from "../middlewares/async-handler";
-import Profile from "../models/Profile";
 import User from "../models/User";
 import { CookieOptions, json, Request, Response } from "express";
 
@@ -14,7 +13,6 @@ export const registerUser = asyncHandler(
   async (req: Request, res: Response) => {
     const { username, email, password } = req.body;
     const createdUser = await User.create({ username, email, password });
-    const profile = await Profile.create({ userId: createdUser._id });
     const token = await createdUser.generateToken();
     return res
       .status(200)
