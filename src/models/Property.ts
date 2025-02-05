@@ -60,6 +60,7 @@ const PropertySchema = new Schema(
       enum: ["Rental", "Sale", "Mortgage"],
       required: true,
     },
+    // Address fields here
     city: {
       type: Types.ObjectId,
       ref: "City",

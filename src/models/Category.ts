@@ -4,11 +4,11 @@ const CategorySchema = new Schema(
   {
     name: {
       type: String,
+      unique: true,
       required: [true, "Please provide Category name"],
     },
     description: {
-      type: Boolean,
-      default: false,
+      type: String,
     },
   },
   { timestamps: true }
