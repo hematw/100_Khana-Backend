@@ -12,6 +12,7 @@ import propertiesRouter from "./src/routes/properties-router";
 import categoryRouter from "@/routes/categories";
 import cityRouter from "@/routes/cities";
 import districtRouter from "@/routes/districts";
+import facilityRouter from "@/routes/facility-router";
 
 dotEnvConfig();
 const app = express();
@@ -47,6 +48,7 @@ app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/cities", cityRouter);
 app.use("/api/v1/districts", districtRouter);
 app.use("/api/v1/properties", propertiesRouter);
+app.use("/api/v1/facilities", facilityRouter);
 app.use(errorHandler);
 
 const start = async () => {

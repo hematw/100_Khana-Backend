@@ -8,6 +8,10 @@ const FacilitiesSchema = new Schema({
   description: {
     type: String,
   },
+  icon: {
+    type: String,
+    required: [true, "Please provide facility icon"],
+  },
 });
 
 export default model("Facility", FacilitiesSchema);
