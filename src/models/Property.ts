@@ -8,12 +8,12 @@ import User from "./User";
 
 const PropertySchema = new Schema(
   {
-    title: {
-      type: String,
-      maxLength: [140, "Title can Not be longer than 140 characters"],
-    },
+    // title: {
+    //   type: String,
+    //   maxLength: [140, "Title can Not be longer than 140 characters"],
+    // },
     description: {
-      type: String,
+      type: [String],
     },
     owner: {
       type: Types.ObjectId,
@@ -51,13 +51,13 @@ const PropertySchema = new Schema(
       type: [{ type: Types.ObjectId, ref: "Facility" }],
     },
     category: {
-      type: Types.ObjectId,
+      type: [{type:Types.ObjectId}],
       ref: "Category",
       required: [true, "Please specify home category"],
     },
     listingType: {
-      type: String,
-      enum: ["Rental", "Sale", "Mortgage"],
+      type: [String],
+      enum: ["rental", "sale", "mortgage"],
       required: true,
     },
     // Address fields here
@@ -71,20 +71,32 @@ const PropertySchema = new Schema(
       ref: "District",
       required: [true, "Please provide district"],
     },
+    road: {
+      type: String,
+      required: [true, "Please provide street"],
+    },
     street: {
       type: String,
       required: [true, "Please provide street"],
     },
-    longitude: {
+    lng: {
       type: Number,
       required: [true, "Please provide longitude"],
     },
-    latitude: {
+    lat: {
       type: Number,
       required: [true, "Please provide latitude"],
+    },
+    floor: {
+      type: Number,
+      required: [true, "Please specify Floor"],
+    },
+    totalFloors: {
+      type: Number,
+      required: [true, "Please specify number of total floors"],
     },
   },
   { timestamps: true }
 );
 
-export default model("Home", PropertySchema);
+export default model("Property", PropertySchema);

@@ -14,7 +14,11 @@ export const createProperty = asyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
     const owner = req.user?.id;
     const imagesPath: string[] = [];
-
+    
+    console.log(req.file, req.files, req.body);
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: "No files uploaded!" });
+  }
     if (Array.isArray(req.files)) {
       req.files.forEach((file: Express.Multer.File) => {
         const imageUrl = `${req.protocol}://${req.hostname}:${
@@ -25,6 +29,7 @@ export const createProperty = asyncHandler(
         imagesPath.push(imageUrl);
       });
     }
+
 
     console.log(req.body);
     const newProperty = await Property.create({
