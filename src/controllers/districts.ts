@@ -16,7 +16,10 @@ export const getAllDistricts = async (
   req: AuthenticatedRequest,
   res: Response
 ) => {
-  const districts = await District.find();
+  const cityId = req.query.cityId;
+  let query = cityId ? { city: cityId } : {};
+
+  const districts = await District.find(query);
   res.json({ districts });
 };
 

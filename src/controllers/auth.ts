@@ -33,7 +33,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     return res
       .status(200)
       .cookie("token", token, cookieOptions)
-      .json({  token });
+      .json({ token, user: foundUser });
   }
   return res.status(401).json({ message: "Email or password was wrong!" });
 });
