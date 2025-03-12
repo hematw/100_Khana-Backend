@@ -11,8 +11,14 @@ const cookieOptions: CookieOptions = {
 // Register route controller
 export const registerUser = asyncHandler(
   async (req: Request, res: Response) => {
-    const { username, email, password } = req.body;
-    const createdUser = await User.create({ username, email, password });
+    const { username, email, password, firstName, lastName } = req.body;
+    const createdUser = await User.create({
+      username,
+      email,
+      password,
+      firstName,
+      lastName,
+    });
     const token = await createdUser.generateToken();
     return res
       .status(200)
