@@ -25,6 +25,15 @@ userRouter.patch(
 );
 
 // Route for get profile by id param
-userRouter.get("/:id", getUser);
+userRouter
+  .route("/:id")
+  .get(getUser)
+  .patch(
+    upload.fields([
+      { name: "profile", maxCount: 1 },
+      { name: "background", maxCount: 1 },
+    ]),
+    updateUser
+  );
 
 export default userRouter;

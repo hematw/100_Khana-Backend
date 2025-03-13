@@ -7,9 +7,6 @@ import User from "../models/User";
 export const getUser = asyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
     let userId = req.params.id;
-    if (userId === "me" && typeof req.user === "object") {
-      userId = req.user?.id;
-    }
     console.log(userId);
     const user = await User.findById(userId);
     if (!user) {
@@ -40,17 +37,17 @@ export const updateUser = asyncHandler(
               .replace("./public", "")
               .concat("/" + files["profile"][0].filename);
 
-          const backgroundImagePath =
-            `${req.protocol}://${req.hostname}:${process.env.PORT}` +
-            files?.["background"][0].destination
-              .replace("./public", "")
-              .concat("/" + files["background"][0].filename);
+          // const backgroundImagePath =
+          //   `${req.protocol}://${req.hostname}:${process.env.PORT}` +
+          //   files?.["background"][0].destination
+          //     .replace("./public", "")
+          //     .concat("/" + files["background"][0].filename);
 
           const user = await User.findByIdAndUpdate(
             userId,
             {
               profile: profileImagePath,
-              background: backgroundImagePath,
+              // background: backgroundImagePath,
               ...req.body,
             },
             {
