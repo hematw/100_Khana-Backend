@@ -34,7 +34,8 @@ app.use(express.static("public"));
 // Route handlers
 app.use((req: Request, res: Response, next: NextFunction) => {
   console.log("request body", req.body);
-  setTimeout(() => next(), 4000);
+  // setTimeout(() => next(), 4000);
+  next();
 });
 
 // Auth routes

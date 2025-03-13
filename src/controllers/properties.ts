@@ -42,3 +42,15 @@ export const createProperty = asyncHandler(
     res.status(201).json({ message: "New Property added", newProperty });
   }
 );
+
+export const getMyHouses = asyncHandler(
+  async (req: AuthenticatedRequest, res: Response) => {
+    const userId = req.user?.id;
+
+    const properties = await Property.find({ owner: userId }).populate(
+      "city district category"
+    );
+
+    res.json({ properties });
+  }
+);

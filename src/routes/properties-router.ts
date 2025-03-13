@@ -3,7 +3,7 @@ import { getProperty, createProperty } from "../controllers/properties";
 import multer from "multer";
 import fs from "fs";
 
-const homeRouter = Router();
+const houseRouter = Router();
 
 // Ensure the upload directory exists
 const uploadDir = "./public/uploads/properties";
@@ -24,8 +24,8 @@ const storage = multer.diskStorage({
 // Initialize Multer Middleware
 const upload = multer({ storage });
 
-homeRouter.get("/", getProperty);
-homeRouter.use((req, res, next) => {
+houseRouter.get("/", getProperty);
+houseRouter.use((req, res, next) => {
   // Convert fields like 'category[0]', 'category[1]' into an array
   for (const key in req.body) {
     if (key.includes("[")) {
@@ -39,6 +39,8 @@ homeRouter.use((req, res, next) => {
   }
   next();
 });
-homeRouter.post("/", upload.array("images"), createProperty);  // Make sure "images" is the key
+houseRouter.post("/", upload.array("images"), createProperty);  // Make sure "images" is the key
+houseRouter.get("/my-houses", getProperty);
+houseRouter.get("/:id", getProperty);
 
-export default homeRouter;
+export default houseRouter;
