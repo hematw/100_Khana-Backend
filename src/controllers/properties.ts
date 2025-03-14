@@ -3,8 +3,9 @@ import asyncHandler from "../middlewares/async-handler";
 import Property from "../models/Property";
 import { AuthenticatedRequest } from "../types/AuthenticatedRequest";
 import { JwtPayload } from "jsonwebtoken";
+import { NotFound } from "@/errors";
 
-export const getProperty = asyncHandler(async (req: Request, res: Response) => {
+export const getProperties = asyncHandler(async (req: Request, res: Response) => {
   const { price, search, listingType } = req.query;
   console.log(price, search, listingType);
 
@@ -52,5 +53,18 @@ export const getMyHouses = asyncHandler(
     );
 
     res.json({ properties });
+  }
+);
+
+export const getPropertyById = asyncHandler(
+  async (req: AuthenticatedRequest, res: Response) => {
+    const propertyId = req.params.id;
+    const property = await Property.findById(propertyId).populate(
+      "city district category owner facilities"
+    );
+    if (!property) {
+      throw new NotFound("Property not found");
+    }
+    res.json(property);
   }
 );

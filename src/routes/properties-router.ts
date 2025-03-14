@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getProperty, createProperty } from "../controllers/properties";
+import { getProperties, createProperty, getPropertyById } from "../controllers/properties";
 import multer from "multer";
 import fs from "fs";
 
@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
 // Initialize Multer Middleware
 const upload = multer({ storage });
 
-houseRouter.get("/", getProperty);
+houseRouter.get("/", getProperties);
 houseRouter.use((req, res, next) => {
   // Convert fields like 'category[0]', 'category[1]' into an array
   for (const key in req.body) {
@@ -40,7 +40,7 @@ houseRouter.use((req, res, next) => {
   next();
 });
 houseRouter.post("/", upload.array("images"), createProperty);  // Make sure "images" is the key
-houseRouter.get("/my-houses", getProperty);
-houseRouter.get("/:id", getProperty);
+houseRouter.get("/my-houses", getProperties);
+houseRouter.get("/:id", getPropertyById);
 
 export default houseRouter;
