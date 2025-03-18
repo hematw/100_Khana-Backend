@@ -5,14 +5,17 @@ import { AuthenticatedRequest } from "../types/AuthenticatedRequest";
 import { JwtPayload } from "jsonwebtoken";
 import { NotFound } from "@/errors";
 
-export const getProperties = asyncHandler(async (req: Request, res: Response) => {
-  const { price, search, listingType } = req.query;
-  console.log(price, search, listingType);
+export const getProperties = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { min_price, max_price, city, listingType } = req.query;
+    console.log(createFilter(req.query));
+    const filter = createFilter(req.query);
 
-  const properties = await Property.find().populate("city district category");
+    const properties = await Property.find(filter).populate("city district category");
 
-  res.json({ properties });
-});
+    res.json({ properties });
+  }
+);
 
 export const createProperty = asyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
@@ -68,3 +71,28 @@ export const getPropertyById = asyncHandler(
     res.json(property);
   }
 );
+
+function createFilter(query: any) {
+  const { min_price, max_price, city, listingType, area, category } = query;
+
+  let filter = {};
+  if (min_price && max_price) {
+    filter.price = { $gte: min_price, $lte: max_price };
+  }
+  if (listingType) {
+    const listingTypesArray = listingType.split(",");
+    filter.listingType = { $in: listingTypesArray };
+  }
+  if (city) {
+    filter.city = city;
+  }
+  if(area){
+    filter.area = {$gte: +area - 20, $lte: +area + 20};
+  }
+
+  if (category) {
+    filter.category = category;
+  }
+
+  return filter;
+}
