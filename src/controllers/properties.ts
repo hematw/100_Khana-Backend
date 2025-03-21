@@ -72,12 +72,20 @@ export const getPropertyById = asyncHandler(
   }
 );
 
-function createFilter(query: any) {
-  const { min_price, max_price, city, listingType, area, category } = query;
+function createFilter(query: any): Record<string, any> {
+  const {
+    min_price,
+    max_price,
+    city,
+    listingType,
+    area,
+    category,
+  } = query;
 
-  let filter = {};
+  const filter: Record<string, any> = {};
+
   if (min_price && max_price) {
-    filter.price = { $gte: min_price, $lte: max_price };
+    filter.price = { $gte: +min_price, $lte: +max_price };
   }
   if (listingType) {
     const listingTypesArray = listingType.split(",");
@@ -86,8 +94,8 @@ function createFilter(query: any) {
   if (city) {
     filter.city = city;
   }
-  if(area){
-    filter.area = {$gte: +area - 20, $lte: +area + 20};
+  if (area) {
+    filter.area = { $gte: +area - 20, $lte: +area + 20 };
   }
 
   if (category) {
