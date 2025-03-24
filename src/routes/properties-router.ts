@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { getProperties, createProperty, getPropertyById } from "../controllers/properties";
+import { getProperties, createProperty, getPropertyById, getMyProperties } from "../controllers/properties";
 import multer from "multer";
 import fs from "fs";
+import { trackPropertyView, trackPropertySaved } from "@/controllers/view-and-save-log";
 
 const houseRouter = Router();
 
@@ -40,7 +41,9 @@ houseRouter.use((req, res, next) => {
   next();
 });
 houseRouter.post("/", upload.array("images"), createProperty);  // Make sure "images" is the key
-houseRouter.get("/my-houses", getProperties);
+houseRouter.get("/my-houses", getMyProperties);
 houseRouter.get("/:id", getPropertyById);
+houseRouter.put("/:id/views", trackPropertyView);
+houseRouter.put("/:id/save", trackPropertySaved);
 
 export default houseRouter;

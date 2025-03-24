@@ -95,6 +95,14 @@ const PropertySchema = new Schema(
       type: Number,
       required: [true, "Please specify number of total floors"],
     },
+    views: {
+      type: Number,
+      default: 0,
+    },
+    saved: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 );

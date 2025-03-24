@@ -47,7 +47,7 @@ export const createProperty = asyncHandler(
   }
 );
 
-export const getMyHouses = asyncHandler(
+export const getMyProperties = asyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
     const userId = req.user?.id;
 
@@ -68,7 +68,29 @@ export const getPropertyById = asyncHandler(
     if (!property) {
       throw new NotFound("Property not found");
     }
-    res.json(property);
+
+    // Find similar properties
+    const similarProperties = await Property.find({
+      $and: [
+        { _id: { $ne: propertyId } }, // Exclude the current property
+        {
+          $or: [
+            { category: property.category },
+            { city: property.city },
+            {
+              price: {
+                $gte: Number(property.price) * 0.8, // Properties within ±20% price range
+                $lte: Number(property.price) * 1.2
+              }
+            }
+          ]
+        }
+      ]
+    })
+    .limit(4) // Limit to 4 similar properties
+    .populate("city district category");
+
+    res.json({ ...property.toJSON(), similarProperties });
   }
 );
 

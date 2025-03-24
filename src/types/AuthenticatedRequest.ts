@@ -2,5 +2,5 @@ import { JwtPayload } from "jsonwebtoken";
 import { Request } from "express";
 
 export interface AuthenticatedRequest extends Request {
-  user?: JwtPayload;
+  user?: JwtPayload & { id: string };
 }
