@@ -11,7 +11,9 @@ export const getProperties = asyncHandler(
     console.log(createFilter(req.query));
     const filter = createFilter(req.query);
 
-    const properties = await Property.find(filter).populate("city district category");
+    const properties = await Property.find(filter).populate(
+      "city district category"
+    );
 
     res.json({ properties });
   }
@@ -62,13 +64,19 @@ export const getMyProperties = asyncHandler(
 export const getPropertyById = asyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
     const propertyId = req.params.id;
-    const property = await Property.findById(propertyId).populate(
-      "city district category owner facilities"
-    );
+    const property = await Property.findById(propertyId)
+      .populate("city district category facilities")
+      .populate({ path: "owner", select: "-password -govId" });
     if (!property) {
       throw new NotFound("Property not found");
     }
 
+    const numberOfListedProperties = await Property.countDocuments({
+      owner: (property?.owner as any)._id,
+    });
+    (property?.owner as any).numberOfListedProperties =
+      numberOfListedProperties;
+    console.log(numberOfListedProperties, property);
     // Find similar properties
     const similarProperties = await Property.find({
       $and: [
@@ -80,29 +88,29 @@ export const getPropertyById = asyncHandler(
             {
               price: {
                 $gte: Number(property.price) * 0.8, // Properties within ±20% price range
-                $lte: Number(property.price) * 1.2
-              }
-            }
-          ]
-        }
-      ]
+                $lte: Number(property.price) * 1.2,
+              },
+            },
+          ],
+        },
+      ],
     })
-    .limit(4) // Limit to 4 similar properties
-    .populate("city district category");
+      .limit(4) // Limit to 4 similar properties
+      .populate("city district category");
 
-    res.json({ ...property.toJSON(), similarProperties });
+    res.json({
+      ...property.toJSON(),
+      owner: {
+        ...property.owner.toJSON(),
+        numberOfListedProperties, // Add it explicitly here
+      },
+      similarProperties,
+    });
   }
 );
 
 function createFilter(query: any): Record<string, any> {
-  const {
-    min_price,
-    max_price,
-    city,
-    listingType,
-    area,
-    category,
-  } = query;
+  const { min_price, max_price, city, listingType, area, category } = query;
 
   const filter: Record<string, any> = {};
 

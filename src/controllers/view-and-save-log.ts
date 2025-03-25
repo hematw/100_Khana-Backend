@@ -19,14 +19,14 @@ const trackPropertyView = async (req: AuthenticatedRequest, res: Response) => {
   }
 
   const viewLog = await ViewLog.findOne({
-    id,
+    propertyId:id,
     userId,
     ipAddress,
   });
 
   if (!viewLog) {
     await ViewLog.create({
-      id,
+      propertyId:id,
       userId,
       ipAddress,
     });
