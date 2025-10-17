@@ -15,6 +15,39 @@ const upload = multer({ storage });
 const userRouter = Router();
 
 // Route for updating profile
+
+/**
+ * @swagger
+ * /api/v1/users/update:
+ *   patch:
+ *     summary: Update user profile
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               profile:
+ *                 type: string
+ *                 format: binary
+ *                 description: Profile picture file
+ *               background:
+ *                 type: string
+ *                 format: binary
+ *                 description: Background picture file
+ *     responses:
+ *       200:
+ *         description: User profile updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ */
 userRouter.patch(
   "/update",
   upload.fields([

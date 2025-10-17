@@ -14,11 +14,36 @@ import cityRouter from "@/routes/cities.ts";
 import districtRouter from "@/routes/districts.ts";
 import facilityRouter from "@/routes/facility-router.ts";
 
+import swaggerUi, { SwaggerOptions } from "swagger-ui-express";
+import swggaerJsDoc from "swagger-jsdoc"
+import env from "./env.ts";
+
+const swaggerOptions: SwaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    inf: {
+      title: "100 Khana API",
+      version: "1.0.0",
+      description: "API documentation for 100 Khana application",
+    },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
+  },
+  apis: ["./src/routes/*.ts"],
+};
+
+const swaggetSpecs = swggaerJsDoc(swaggerOptions);
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = env.PORT || 3000;
+  
 
-// middlewares
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggetSpecs));
+
+  // middlewares
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,7 +65,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // Auth routes
 app.use("/api/v1/auth", authRouter);
-app.use(authHandler);
+// app.use(authHandler);
 
 // Users routes
 app.use("/api/v1/users", userRouter);
@@ -54,8 +79,8 @@ app.use(errorHandler);
 
 const start = async () => {
   try {
-    if (process.env.MONGO_STRING) {
-      await connectDb(process.env.MONGO_STRING);
+    if (env.MONGO_STRING) {
+      await connectDb(env.MONGO_STRING);
       console.log("Database connected ✅");
       app.listen(port, () =>
         console.log(`server is running on port ${port} 🆗`)
