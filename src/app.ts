@@ -65,7 +65,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // Auth routes
 app.use("/api/v1/auth", authRouter);
-// app.use(authHandler);
+app.use(authHandler);
 
 // Users routes
 app.use("/api/v1/users", userRouter);
