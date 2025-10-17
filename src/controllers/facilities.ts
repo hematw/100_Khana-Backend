@@ -1,7 +1,7 @@
 import { Response } from "express";
-import { AuthenticatedRequest } from "@/types/AuthenticatedRequest";
-import Facility from "@/models/Facility";
-import { NotFound } from "@/errors";
+import { AuthenticatedRequest } from "@/types/AuthenticatedRequest.ts";
+import Facility from "@/models/Facility.ts";
+import { NotFound } from "@/errors/index.ts";
 
 export const createFacility = async (
   req: AuthenticatedRequest,

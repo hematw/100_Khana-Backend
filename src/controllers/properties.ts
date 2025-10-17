@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import asyncHandler from "../middlewares/async-handler";
-import Property from "../models/Property";
-import { AuthenticatedRequest } from "../types/AuthenticatedRequest";
+import asyncHandler from "../middlewares/async-handler.ts";
+import Property from "../models/Property.ts";
+import { AuthenticatedRequest } from "../types/AuthenticatedRequest.ts";
 import { JwtPayload } from "jsonwebtoken";
-import { NotFound } from "@/errors";
+import { NotFound } from "@/errors/index.ts";
+import env from "@/env.ts";
 
 export const getProperties = asyncHandler(
   async (req: Request, res: Response) => {
@@ -31,7 +32,7 @@ export const createProperty = asyncHandler(
     if (Array.isArray(req.files)) {
       req.files.forEach((file: Express.Multer.File) => {
         const imageUrl = `${req.protocol}://${req.hostname}:${
-          process.env.PORT
+          env.PORT
         }${file.destination
           .replace("./public", "")
           .concat("/" + file.filename)}`;

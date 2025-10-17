@@ -1,7 +1,7 @@
-import Property from "@/models/Property";
-import SaveLog from "@/models/SaveLog";
-import ViewLog from "@/models/ViewLog";
-import { AuthenticatedRequest } from "@/types/AuthenticatedRequest";
+import Property from "@/models/Property.ts";
+import SaveLog from "@/models/SaveLog.ts";
+import ViewLog from "@/models/ViewLog.ts";
+import { AuthenticatedRequest } from "@/types/AuthenticatedRequest.ts";
 import { Response } from "express";
 
 const trackPropertyView = async (req: AuthenticatedRequest, res: Response) => {

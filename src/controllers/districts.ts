@@ -1,7 +1,7 @@
 import { Response } from "express";
-import { AuthenticatedRequest } from "@/types/AuthenticatedRequest";
-import District from "@/models/District";
-import { NotFound } from "@/errors";
+import { AuthenticatedRequest } from "@/types/AuthenticatedRequest.ts";
+import District from "@/models/District.ts";
+import { NotFound } from "@/errors/index.ts";
 
 export const createDistrict = async (
   req: AuthenticatedRequest,

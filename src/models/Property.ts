@@ -1,5 +1,5 @@
 import { Schema, Types, model } from "mongoose";
-import User from "./User";
+import User from "./User.ts";
 
 // title, description, numOfRooms, numOfBaths, kitchen, images,✅
 // address(province, district), ✅

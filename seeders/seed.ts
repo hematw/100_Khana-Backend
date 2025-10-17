@@ -1,7 +1,8 @@
 import { faker } from "@faker-js/faker";
 import mongoose from "mongoose";
-import Property from "../src/models/Property"; // Ensure the path is correct
-import connectDb from "../src/db/connect"; // Ensure the path is correct
+import Property from "../src/models/Property.ts"; // Ensure the path is correct
+import connectDb from "../src/db/connect.ts"; // Ensure the path is correct
+import env from "@/env.ts";
 
 // Define a type for the Property object
 interface PropertyData {
@@ -44,8 +45,8 @@ const seedProperty = async (): Promise<void> => {
   }
 
   try {
-    if (process.env.MONGO_STRING) {
-      await connectDb(process.env.MONGO_STRING);
+    if (env.MONGO_STRING) {
+      await connectDb(env.MONGO_STRING);
       console.log("Database connected ✅");
     } else {
       throw new Error("MONGO_STRING is not defined in the environment variables");

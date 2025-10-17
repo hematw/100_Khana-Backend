@@ -4,8 +4,8 @@ import {
   getAllCategories,
   getCategory,
   updateCategory,
-} from "@/controllers/categories";
-import asyncHandler from "@/middlewares/async-handler";
+} from "@/controllers/categories.ts";
+import asyncHandler from "@/middlewares/async-handler.ts";
 import { Router } from "express";
 
 const categoryRouter = Router();

@@ -4,8 +4,8 @@ import {
     getAllFacilities,
     getFacility,
     updateFacility,
-  } from "@/controllers/facilities";
-  import asyncHandler from "@/middlewares/async-handler";
+  } from "@/controllers/facilities.ts";
+  import asyncHandler from "@/middlewares/async-handler.ts";
   import { Router } from "express";
   
   const facilityRouter = Router();

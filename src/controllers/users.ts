@@ -1,8 +1,9 @@
 import { Response } from "express";
-import asyncHandler from "../middlewares/async-handler";
-import { AuthenticatedRequest } from "../types/AuthenticatedRequest";
+import asyncHandler from "../middlewares/async-handler.ts";
+import { AuthenticatedRequest } from "../types/AuthenticatedRequest.ts";
 import { JwtPayload } from "jsonwebtoken";
-import User from "../models/User";
+import User from "../models/User.ts";
+import env from "@/env.ts";
 
 export const getUser = asyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
@@ -15,12 +16,11 @@ export const getUser = asyncHandler(
     res.json(user);
   }
 );
-
 export const updateUser = asyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
     console.log("file is here", req.file);
     if (typeof req.user === "object") {
-      let userId: JwtPayload = req.user?.id;
+      let userId: string = req.user?.id;
       if (userId) {
         try {
           await User.findByIdAndUpdate(userId, {
@@ -32,13 +32,13 @@ export const updateUser = asyncHandler(
           };
 
           const profileImagePath =
-            `${req.protocol}://${req.hostname}:${process.env.PORT}` +
+            `${req.protocol}://${req.hostname}:${env.PORT}` +
             files?.["profile"][0].destination
               .replace("./public", "")
               .concat("/" + files["profile"][0].filename);
 
           // const backgroundImagePath =
-          //   `${req.protocol}://${req.hostname}:${process.env.PORT}` +
+          //   `${req.protocol}://${req.hostname}:${env.PORT}` +
           //   files?.["background"][0].destination
           //     .replace("./public", "")
           //     .concat("/" + files["background"][0].filename);

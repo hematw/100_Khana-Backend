@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { getProperties, createProperty, getPropertyById, getMyProperties } from "../controllers/properties";
+import { getProperties, createProperty, getPropertyById, getMyProperties } from "../controllers/properties.ts";
 import multer from "multer";
 import fs from "fs";
-import { trackPropertyView, trackPropertySaved } from "@/controllers/view-and-save-log";
+import { trackPropertyView, trackPropertySaved } from "@/controllers/view-and-save-log.ts";
 
 const houseRouter = Router();
 

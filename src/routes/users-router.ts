@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUser, updateUser } from "../controllers/users";
+import { getUser, updateUser } from "../controllers/users.ts";
 import multer from "multer";
 
 const storage = multer.diskStorage({

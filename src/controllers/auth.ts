@@ -1,5 +1,5 @@
-import asyncHandler from "../middlewares/async-handler";
-import User from "../models/User";
+import asyncHandler from "../middlewares/async-handler.ts";
+import User from "../models/User.ts";
 import { CookieOptions, json, Request, Response } from "express";
 
 const cookieOptions: CookieOptions = {

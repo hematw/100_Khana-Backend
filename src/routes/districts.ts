@@ -1,4 +1,4 @@
-import asyncHandler from "@/middlewares/async-handler";
+import asyncHandler from "@/middlewares/async-handler.ts";
 import { Router } from "express";
 import {
   getDistrict,
@@ -6,7 +6,7 @@ import {
   createDistrict,
   updateDistrict,
   deleteDistrict,
-} from "@/controllers/districts";
+} from "@/controllers/districts.ts";
 
 const districtRouter = Router();
 

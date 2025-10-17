@@ -1,6 +1,7 @@
 import mongoose, { Document } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import env from "@/env.ts";
 
 interface IUser extends Document {
   username: string;
@@ -71,7 +72,7 @@ User.methods.isPasswordCorrect = async function (
 };
 
 User.methods.generateToken = async function () {
-  const jwtSecret = process.env.MY_JWT_SECRET;
+  const jwtSecret = env.MY_JWT_SECRET;
   return await jwt.sign(
     { id: this._id, username: this.username },
     jwtSecret || "I AM NOT SECURE"

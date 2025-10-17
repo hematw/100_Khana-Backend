@@ -1,7 +1,7 @@
-import City from "@/models/City";
+import City from "@/models/City.ts";
 import { Response } from "express";
-import { AuthenticatedRequest } from "@/types/AuthenticatedRequest";
-import { NotFound } from "@/errors";
+import { AuthenticatedRequest } from "@/types/AuthenticatedRequest.ts";
+import { NotFound } from "@/errors/index.ts";
 
 export const createCity = async (
   req: AuthenticatedRequest,

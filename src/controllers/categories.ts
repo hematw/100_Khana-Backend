@@ -1,7 +1,7 @@
 import { Response } from "express";
-import { AuthenticatedRequest } from "@/types/AuthenticatedRequest";
-import Category from "@/models/Category";
-import { NotFound } from "@/errors";
+import { AuthenticatedRequest } from "@/types/AuthenticatedRequest.ts";
+import Category from "@/models/Category.ts";
+import { NotFound } from "@/errors/index.ts";
 
 export const createCategory = async (
   req: AuthenticatedRequest,

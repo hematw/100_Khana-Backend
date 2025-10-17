@@ -1,20 +1,20 @@
 import { config as dotEnvConfig } from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
-import authRouter from "./src/routes/auth-router";
+import authRouter from "./routes/auth-router.ts";
 import morgan from "morgan";
-import connectDb from "./src/db/connect";
-import errorHandler from "./src/middlewares/error-handler";
-import authHandler from "./src/middlewares/auth-handler";
+import connectDb from "./db/connect.ts";
+import errorHandler from "./middlewares/error-handler.ts";
+import authHandler from "./middlewares/auth-handler.ts";
 import cookieParser from "cookie-parser";
-import userRouter from "./src/routes/users-router";
-import propertiesRouter from "./src/routes/properties-router";
-import categoryRouter from "@/routes/categories";
-import cityRouter from "@/routes/cities";
-import districtRouter from "@/routes/districts";
-import facilityRouter from "@/routes/facility-router";
+import userRouter from "./routes/users-router.ts";
+import propertiesRouter from "./routes/properties-router.ts";
+import categoryRouter from "@/routes/categories.ts";
+import cityRouter from "@/routes/cities.ts";
+import districtRouter from "@/routes/districts.ts";
+import facilityRouter from "@/routes/facility-router.ts";
 
-dotEnvConfig();
+
 const app = express();
 const port = process.env.PORT || 3000;
 
