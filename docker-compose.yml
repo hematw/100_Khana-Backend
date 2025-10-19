@@ -1,0 +1,15 @@
+services:
+  backend:
+    image: 100-khana:latest
+    container_name: 100-khana-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_STRING=mongodb://db:27017/100-khana
+      - NODE_ENV=development
+    
+  db:
+    image: mongodb/mongodb-community-server
+    container_name: 100-khana-db
+
+    
