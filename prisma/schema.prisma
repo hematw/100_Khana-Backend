@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Property {
+  id          String   @id @default(uuid())
+  description String[]
+  owner       String
+  livingRooms Int
+  bedrooms    Int
+  kitchens    Int
+  baths       Int
+  images      String[]
+  price       Float
+  area        Float
+  category    String
+  listingType String
+  city        String
+  district    String
+  road        String
+  street      String
+  lng         Float
+  lat         Float
+  floor       Int
+  totalFloors Int
+  views       Int
+  saved       Int
+
+  reviews    Review[]
+  bookmarks  Bookmark[]
+  viewLogs   ViewLog[]
+  facilities Facility[]
+}
+
+model Review {
+  id         String @id @default(uuid())
+  user       String
+  propertyId String
+  rating     Int
+  comment    String
+
+  property Property @relation(fields: [propertyId], references: [id])
+}
+
+model Bookmark {
+  id         String @id @default(uuid())
+  user       String
+  propertyId String
+
+  property Property @relation(fields: [propertyId], references: [id])
+}
+
+model Category {
+  id          String @id @default(uuid())
+  name        String @unique
+  description String
+}
+
+model ViewLog {
+  id         String @id @default(uuid())
+  propertyId String
+
+  property Property @relation(fields: [propertyId], references: [id])
+}
+
+model Facility {
+  id          String     @id @default(uuid())
+  name        String
+  description String
+  icon        String
+  properties  Property[]
+}
