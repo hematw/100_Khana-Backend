@@ -4,7 +4,7 @@ import multer from "multer";
 import fs from "fs";
 import { trackPropertyView, trackPropertySaved } from "@/controllers/view-and-save-log.ts";
 
-const houseRouter = Router();
+const propertyRouter = Router();
 
 // Ensure the upload directory exists
 const uploadDir = "./public/uploads/properties";
@@ -25,8 +25,8 @@ const storage = multer.diskStorage({
 // Initialize Multer Middleware
 const upload = multer({ storage });
 
-houseRouter.get("/", getProperties);
-houseRouter.use((req, res, next) => {
+propertyRouter.get("/", getProperties);
+propertyRouter.use((req, res, next) => {
   // Convert fields like 'category[0]', 'category[1]' into an array
   for (const key in req.body) {
     if (key.includes("[")) {
@@ -40,10 +40,10 @@ houseRouter.use((req, res, next) => {
   }
   next();
 });
-houseRouter.post("/", upload.array("images"), createProperty);  // Make sure "images" is the key
-houseRouter.get("/my-houses", getMyProperties);
-houseRouter.get("/:id", getPropertyById);
-houseRouter.put("/:id/views", trackPropertyView);
-houseRouter.put("/:id/save", trackPropertySaved);
+propertyRouter.post("/", upload.array("images"), createProperty);  // Make sure "images" is the key
+propertyRouter.get("/my-propertys", getMyProperties);
+propertyRouter.get("/:id", getPropertyById);
+propertyRouter.put("/:id/views", trackPropertyView);
+propertyRouter.put("/:id/save", trackPropertySaved);
 
-export default houseRouter;
+export default propertyRouter;

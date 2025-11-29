@@ -1,8 +1,8 @@
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
-import authRouter from "./routes/auth-router.ts";
+// import authRouter from "./routes/auth-router.ts";
 import morgan from "morgan";
-import connectDb from "./db/connect.ts";
+
 import errorHandler from "./middlewares/error-handler.ts";
 import authHandler from "./middlewares/auth-handler.ts";
 import cookieParser from "cookie-parser";
@@ -16,6 +16,7 @@ import facilityRouter from "@/routes/facility-router.ts";
 import swaggerUi, { SwaggerOptions } from "swagger-ui-express";
 import swggaerJsDoc from "swagger-jsdoc";
 import env from "./env.ts";
+
 
 import session from "express-session";
 import KeycloakConnect from "keycloak-connect";
@@ -40,10 +41,11 @@ const swaggerOptions: SwaggerOptions = {
 const swaggetSpecs = swggaerJsDoc(swaggerOptions);
 
 const app = express();
-const port = env.PORT || 3000;
+const port = env.PORT || 3001;
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggetSpecs));
 
+// middlewares
 // middlewares
 app.use(cookieParser());
 app.use(express.json());
@@ -81,19 +83,26 @@ const keycloak = new KeycloakConnect({ store: memoryStore }, {
 } as any);
 
 
-app.use(keycloak.middleware());
-
-
 // Route handlers
 app.use((req: Request, res: Response, next: NextFunction) => {
     console.log("request body", req.body);
     // setTimeout(() => next(), 4000);
     next();
+    console.log("request body", req.body);
+    // setTimeout(() => next(), 4000);
+    next();
 });
 
+app.get("/", (req: Request, res: Response) => {
+    res.send("Wellcome to 100 khana API");
+});
+
+// app.use(keycloak.middleware());
+
+
 // Auth routes
-app.use("/api/v1/auth", authRouter);
-app.use(keycloak.protect());
+// app.use("/api/v1/auth", authRouter);
+// app.use(keycloak.protect());
 
 // Users routes
 app.use("/api/v1/users", userRouter);
@@ -107,13 +116,11 @@ app.use(errorHandler);
 
 const start = async () => {
     try {
-        if (env.MONGO_STRING) {
-            await connectDb(env.MONGO_STRING);
-            console.log("Database connected ✅");
-            app.listen(port, () =>
-                console.log(`server is running on port ${port} 🆗`)
-            );
-        }
-    } catch (error) {}
+        app.listen(port, () =>
+            console.log(`server is running on port ${port} 🆗`)
+        );
+    } catch (error) {
+        console.error(error);
+    }
 };
 start();

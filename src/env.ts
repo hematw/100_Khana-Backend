@@ -33,6 +33,12 @@ const env = createEnv({
         KEYCLOAK_CLIENT_ID: z.string().min(1, {
             message: "❌ Missing KEYCLOAK_CLIENT_ID in environment variables",
         }),
+        DATABASE_URL: z.string().min(1, {
+            message: "❌ Missing DATABASE_URL in environment variables",
+        }),
+        ALLOWED_ORIGINS: z.string().min(1, {
+            message: "❌ Missing ALLOWED_ORIGINS in environment variables",
+        }),
     },
     runtimeEnv: {
         MONGO_STRING: process.env.MONGO_STRING,
@@ -43,6 +49,8 @@ const env = createEnv({
         KEYCLOAK_URL: process.env.KEYCLOAK_URL,
         KEYCLOAK_SECRET: process.env.KEYCLOAK_SECRET,
         KEYCLOAK_CLIENT_ID: process.env.KEYCLOAK_CLIENT_ID,
+        DATABASE_URL: process.env.DATABASE_URL,
+        ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS,
     },
 });
 
