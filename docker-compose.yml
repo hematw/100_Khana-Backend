@@ -1,15 +1,26 @@
 services:
   backend:
-    image: 100-khana:latest
+    build: .
     container_name: 100-khana-backend
     ports:
-      - "3000:3000"
+      - "3001:3001"
     environment:
-      - MONGO_STRING=mongodb://db:27017/100-khana
+      - DATABASE_URL=${DATABASE_URL}
       - NODE_ENV=development
-    
+    depends_on:
+      - db
+    networks:
+      - 100-khana-network
   db:
-    image: mongodb/mongodb-community-server
     container_name: 100-khana-db
+    image: postgres:14.19-trixie
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - 100-khana-network
 
-    
+volumes:
+  postgres_data:
+networks:
+  100-khana-network:

@@ -17,6 +17,7 @@ import swaggerUi, { SwaggerOptions } from "swagger-ui-express";
 import swggaerJsDoc from "swagger-jsdoc";
 import env from "./env.ts";
 
+
 import session from "express-session";
 import KeycloakConnect from "keycloak-connect";
 
@@ -44,6 +45,7 @@ const port = env.PORT || 3001;
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggetSpecs));
 
+// middlewares
 // middlewares
 app.use(cookieParser());
 app.use(express.json());
@@ -83,6 +85,9 @@ const keycloak = new KeycloakConnect({ store: memoryStore }, {
 
 // Route handlers
 app.use((req: Request, res: Response, next: NextFunction) => {
+    console.log("request body", req.body);
+    // setTimeout(() => next(), 4000);
+    next();
     console.log("request body", req.body);
     // setTimeout(() => next(), 4000);
     next();
