@@ -24,7 +24,8 @@ model Property {
   images      String[]
   price       Float
   area        Float
-  category    String
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String
   listingType String
   city        String
   district    String
@@ -62,9 +63,10 @@ model Bookmark {
 }
 
 model Category {
-  id          String @id @default(uuid())
-  name        String @unique
+  id          String     @id @default(uuid())
+  name        String     @unique
   description String
+  properties  Property[]
 }
 
 model ViewLog {
