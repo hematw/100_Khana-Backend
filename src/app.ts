@@ -46,7 +46,6 @@ const port = env.PORT || 3001;
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggetSpecs));
 
 // middlewares
-// middlewares
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -70,6 +69,23 @@ app.use(
     })
 );
 
+KeycloakConnect.prototype.redirectToLogin = function(req: Request) {
+    // const apiReqMatcher = /\/api\//i;
+    const apiReqMatcher = /\//i;
+    return !apiReqMatcher.test(req.originalUrl || req.url);
+};
+
+(KeycloakConnect.prototype as any).accessDenied = function(req: any, res: any) {
+  if (req.originalUrl.startsWith("/api/")) {
+    const user = req.kauth?.grant?.access_token?.content;
+    console.log(user, req.kauth)
+    if (!user) return res.status(401).json({ error: "Unauthorized" });
+    return res.status(403).json({ error: "Forbidden - insufficient role" });
+  }
+  res.redirect(this.config.loginUrl);
+};
+
+
 const keycloak = new KeycloakConnect({ store: memoryStore }, {
     realm: env.KEYCLOAK_REALM,
     "auth-server-url": env.KEYCLOAK_URL,
@@ -88,21 +104,18 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     console.log("request body", req.body);
     // setTimeout(() => next(), 4000);
     next();
-    console.log("request body", req.body);
-    // setTimeout(() => next(), 4000);
-    next();
 });
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Wellcome to 100 khana API");
 });
 
-// app.use(keycloak.middleware());
+app.use(keycloak.middleware());
 
 
 // Auth routes
 // app.use("/api/v1/auth", authRouter);
-// app.use(keycloak.protect());
+app.use(keycloak.protect());
 
 // Users routes
 app.use("/api/v1/users", userRouter);
